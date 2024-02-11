@@ -1,0 +1,24 @@
+extend() -- method available for collections like vectors
+         -- meaning it can accept any object that can be iterated over, 
+         -- such as arrays, ranges, iterators, or other collections
+
+         let mut vec = vec![1, 2, 3];
+         vec.extend([4, 5, 6].iter()); // Extend with elements from an array
+         vec.extend(7..=9);
+
+          is called, it iterates over the elements of the provided iterable and 
+          adds them to the end of the collection
+
+extend_from_slice()
+
+         -- specifically for extending a collection with elements from a slice.
+
+         let mut vec = vec![1, 2, 3];
+         let arr = [4, 5, 6];
+         vec.extend_from_slice(&arr);
+
+slice to add
+    arr[2..] -- slice 2th index to end of the array
+
+arr.split_at_mut(mid) -- split from mid, then return a tuple of (reftArr, rightArr)
+    
