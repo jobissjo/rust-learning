@@ -1,0 +1,7 @@
+## Increment a character of alphabet ##
+
+let mut mychar: char = 'a';
+mychar = (mychar as u8 + 1) as char;
+
+## if we convetr a char num to num as type casting --> it will give original value the char
+so we need to parse char or str to the int
