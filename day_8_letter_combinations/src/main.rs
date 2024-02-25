@@ -1,8 +1,8 @@
-use std::collections::HashMap;
+use std::{collections::HashMap};
 
 fn main() {
     println!("Hello, world!");
-    let s_my_str = comb_letter_phone_num("23");
+    let s_my_str = comb_letter_phone_num("2");
     println!("{:?}", s_my_str);
 }
 
@@ -24,39 +24,54 @@ fn comb_letter_phone_num(my_str: &str) -> Vec<String> {
         }
     }
 
-    let mut result: Vec<String> = vec![];
-    let mut my_num = 0;
-    if my_str.len() == 1 {
-        match my_str.parse::<i32>() {
-            Ok(num) => {
-                my_num = num;
-            }
-            Err(_) => {
-                println!("Failed to parse integer");
-            }
-        }
+    // let mut result: Vec<String> = vec![];
+    let mut combinations = Vec::new();
+    let mut all_the_letters: Vec<Vec<String>> = vec![];
 
-        if let Some(value) = map.get(&my_num) {
-            for n in value {
-                let s = n.to_string();
-                result.push(s);
+    if my_str.len() >= 1 {
+        let new_map = map.clone();
+        for num in my_str.chars() {
+            let temp_result = give_individual_letter(num, new_map.clone());
+            all_the_letters.push(temp_result);
+        }
+    }
+    generate_all_the_combinations(&all_the_letters, 0, String::new(), &mut combinations);
+    return combinations;
+}
+
+fn give_individual_letter(my_char: char, map: HashMap<i32, Vec<char>>) -> Vec<String> {
+    let mut result: Vec<String> = vec![];
+    match my_char.to_string().parse::<i32>() {
+        Ok(num) => {
+            if let Some(value) = map.get(&num) {
+                for n in value {
+                    let s = n.to_string();
+                    result.push(s);
+                }
             }
         }
-    } else if my_str.is_empty() {
+        Err(_e) => {
+            println!("Failed to parse integer");
+        }
     }
     return result;
 }
 
-// let string_vec: Vec<&str> = value
-//     .iter()
-//     .map(|s| s.to_string())
-//     .map(|n| n.as_str())
-//     .collect();
-// result.clone_from_slice(&string_vec);
+fn generate_all_the_combinations(
+    array: &Vec<Vec<String>>,
+    index: usize,
+    prefix: String,
+    combinations: &mut Vec<String>,
+) {
+    if index == array.len() {
+        combinations.push(prefix);
+        return;
+    }
 
-// for n in mystr.chars() {
-//     let temp_num = n as i32;
-//     if let Some(value) = map.get(&temp_num) {
-//         for i in value {}
-//     }
-// }
+    for c in &array[index] {
+        
+        let new_prefix = format!("{}{}", prefix, c);
+        generate_all_the_combinations(array, index+1, new_prefix, combinations)
+        
+    }
+}
